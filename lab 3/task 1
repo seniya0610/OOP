@@ -1,0 +1,108 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class MarkerPens {
+private:
+	string brand;
+	string color;
+	int inklevel;
+	bool refillability;
+
+public:
+	MarkerPens(string b, string c, int i, bool r) {
+		brand = b;
+		color = c;
+		inklevel = i;
+		refillability = r;
+	}
+
+	void write(int a) {
+		if (inklevel == 0) {
+			cout << "Out of ink! Please refill." << endl;
+			refillability = true;
+		} else if (a > inklevel) {
+			cout << "Not enough ink! You only have " << inklevel << "% left." << endl;
+			cout << "Would you like to refill? (1 for Yes, 0 for No): ";
+			int choice;
+			cin >> choice;
+
+			if (choice == 1) {
+				refillability = true;
+				cout << "Please call the refill function." << endl;
+			} else {
+				cout << "Continuing without refilling. Writing not possible. Try using less amount according to ink level currently present" << endl;
+			}
+		} else {
+			inklevel -= a;
+			cout << "Writing with " << color << " marker. Ink level: " << inklevel << "%" << endl;
+
+			if (inklevel == 0) {
+				cout << "Ink has run out! Please refill." << endl;
+				refillability = true;
+			}
+		}
+	}
+
+
+	void refill() {
+		if (refillability) {
+			inklevel = 100;
+			cout << color << " marker refilled. Ink level: " << inklevel << "%" << endl;
+		} else {
+			cout << "This marker is not refillable." << endl;
+		}
+	}
+
+	void checkStatus() {
+		cout << brand << " " << color << " marker - Ink level: " << inklevel << "%" << endl;
+	}
+};
+
+int main() {
+	string b, c;
+	int ink;
+	bool r;
+
+	cout << "Enter brand: ";
+	cin >> b;
+	cout << "Enter color: ";
+	cin >> c;
+	cout << "Enter current ink level: ";
+	cin >> ink;
+
+	r = (ink == 0);
+
+	MarkerPens marker(b, c, ink, r);
+
+	int choice, amount;
+
+	while (true) {
+		cout << "\nMenu:\n";
+		cout << "1. Write\n";
+		cout << "2. Refill\n";
+		cout << "3. Check Status\n";
+		cout << "4. Exit\n";
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			cout << "amount of ink you want to use: ";
+			     cin >> amount;
+			marker.write(amount);
+			break;
+		case 2:
+			marker.refill();
+			break;
+		case 3:
+			marker.checkStatus();
+			break;
+		case 4:
+			cout << "Exiting program.\n";
+			return 0;
+		default:
+			cout << "Invalid choice. Try again.\n";
+		}
+	}
+}
