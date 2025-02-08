@@ -4,233 +4,241 @@ using namespace std;
 
 class Laptop {
 private:
-    string brand;
-    string model;
-    string processor;
-    int RAM;     // in GB
-    int storage; // in GB
-    bool isOn;
+	string brand;
+	string model;
+	string processor;
+	int RAM;     // in GB
+	int storage; // in GB
+	bool isOn;
 
 public:
-    Laptop() : brand(""), model(""), processor(""), RAM(0), storage(0), isOn(false) {} // Default constructor
+	Laptop() {
+		brand = "";
+		model = "";
+		processor = "";
+		RAM = 0;
+		storage = 0;
+		isOn = false;
+	}
+} // Default constructor
 
-    Laptop(string b, string m, string p, int r, int s) {
-        brand = b;
-        model = m;
-        processor = p;
-        RAM = r;
-        storage = s;
-        isOn = false; // Laptop is initially off
-    }
+Laptop(string b, string m, string p, int r, int s) {
+	brand = b;
+	model = m;
+	processor = p;
+	RAM = r;
+	storage = s;
+	isOn = false; // Laptop is initially off
+}
 
-    void turnOn() {
-        if (isOn) {
-            cout << "Laptop is already on.\n";
-        } else {
-            cout << "Turning on laptop...\n";
-            isOn = true;
-            cout << "Laptop successfully turned on.\n";
-        }
-    }
+void turnOn() {
+	if (isOn) {
+		cout << "Laptop is already on.\n";
+	} else {
+		cout << "Turning on laptop...\n";
+		isOn = true;
+		cout << "Laptop successfully turned on.\n";
+	}
+}
 
-    void turnOff() {
-        if (!isOn) {
-            cout << "Laptop is already off.\n";
-        } else {
-            cout << "Turning off laptop...\n";
-            isOn = false;
-            cout << "Laptop successfully turned off.\n";
-        }
-    }
+void turnOff() {
+	if (!isOn) {
+		cout << "Laptop is already off.\n";
+	} else {
+		cout << "Turning off laptop...\n";
+		isOn = false;
+		cout << "Laptop successfully turned off.\n";
+	}
+}
 
-    void runProgram(string program) {
-        if (isOn) {
-            cout << "Running " << program << " on " << brand << " " << model << ".\n";
-        } else {
-            cout << "Cannot run program. Laptop is OFF.\n";
-        }
-    }
+void runProgram(string program) {
+	if (isOn) {
+		cout << "Running " << program << " on " << brand << " " << model << ".\n";
+	} else {
+		cout << "Cannot run program. Laptop is OFF.\n";
+	}
+}
 
-    void checkSpecifications() const { // Add const at the end
-        cout << "Brand: " << brand << endl;
-        cout << "Model: " << model << endl;
-        cout << "Processor: " << processor << endl;
-        cout << "RAM: " << RAM << "GB" << endl;
-        cout << "Storage: " << storage << "GB" << endl;
-        cout << "Status: " << (isOn ? "ON" : "OFF") << endl;
-    }
+void checkSpecifications() const { // Add const at the end
+	cout << "Brand: " << brand << endl;
+	cout << "Model: " << model << endl;
+	cout << "Processor: " << processor << endl;
+	cout << "RAM: " << RAM << "GB" << endl;
+	cout << "Storage: " << storage << "GB" << endl;
+	cout << "Status: " << (isOn ? "ON" : "OFF") << endl;
+}
 
-    int getRAM() const {
-        return RAM;
-    }
+int getRAM() const {
+	return RAM;
+}
 
-    int getStorage() const {
-        return storage;
-    }
+int getStorage() const {
+	return storage;
+}
 
-    string getProcessor() const {
-        return processor;
-    }
+string getProcessor() const {
+	return processor;
+}
 };
 
 void compareLaptops(const Laptop laptops[], int index1, int index2) {
-    if (index1 < 0 || index2 < 0) {
-        cout << "Invalid laptop index. Skipping comparison.\n";
-        return;
-    }
+	if (index1 < 0 || index2 < 0) {
+		cout << "Invalid laptop index. Skipping comparison.\n";
+		return;
+	}
 
-    cout << "\nLaptop " << index1 + 1 << " specifications:\n";
-    laptops[index1].checkSpecifications();
-    
-    cout << "\nLaptop " << index2 + 1 << " specifications:\n";
-    laptops[index2].checkSpecifications();
+	cout << "\nLaptop " << index1 + 1 << " specifications:\n";
+	laptops[index1].checkSpecifications();
 
-    // Compare RAM
-    cout << "Comparing laptops:\n";
-    if (laptops[index1].getRAM() > laptops[index2].getRAM()) {
-        cout << "Laptop " << index1 + 1 << " has more RAM: " << laptops[index1].getRAM() << "GB\n";
-    } else if (laptops[index1].getRAM() < laptops[index2].getRAM()) {
-        cout << "Laptop " << index2 + 1 << " has more RAM: " << laptops[index2].getRAM() << "GB\n";
-    } else {
-        cout << "Both laptops have equal RAM: " << laptops[index1].getRAM() << "GB\n";
-    }
+	cout << "\nLaptop " << index2 + 1 << " specifications:\n";
+	laptops[index2].checkSpecifications();
 
-    // Compare Storage
-    if (laptops[index1].getStorage() > laptops[index2].getStorage()) {
-        cout << "Laptop " << index1 + 1 << " has more storage: " << laptops[index1].getStorage() << "GB\n";
-    } else if (laptops[index1].getStorage() < laptops[index2].getStorage()) {
-        cout << "Laptop " << index2 + 1 << " has more storage: " << laptops[index2].getStorage() << "GB\n";
-    } else {
-        cout << "Both laptops have equal storage: " << laptops[index1].getStorage() << "GB\n";
-    }
+	// Compare RAM
+	cout << "Comparing laptops:\n";
+	if (laptops[index1].getRAM() > laptops[index2].getRAM()) {
+		cout << "Laptop " << index1 + 1 << " has more RAM: " << laptops[index1].getRAM() << "GB\n";
+	} else if (laptops[index1].getRAM() < laptops[index2].getRAM()) {
+		cout << "Laptop " << index2 + 1 << " has more RAM: " << laptops[index2].getRAM() << "GB\n";
+	} else {
+		cout << "Both laptops have equal RAM: " << laptops[index1].getRAM() << "GB\n";
+	}
+
+	// Compare Storage
+	if (laptops[index1].getStorage() > laptops[index2].getStorage()) {
+		cout << "Laptop " << index1 + 1 << " has more storage: " << laptops[index1].getStorage() << "GB\n";
+	} else if (laptops[index1].getStorage() < laptops[index2].getStorage()) {
+		cout << "Laptop " << index2 + 1 << " has more storage: " << laptops[index2].getStorage() << "GB\n";
+	} else {
+		cout << "Both laptops have equal storage: " << laptops[index1].getStorage() << "GB\n";
+	}
 }
 
 void displayAllLaptops(const Laptop laptops[], int count) {
-    cout << "\nDisplaying specifications for all laptops:\n";
-    for (int i = 0; i < count; i++) {
-        cout << "\nLaptop " << i + 1 << ":\n";
-        laptops[i].checkSpecifications();
-    }
+	cout << "\nDisplaying specifications for all laptops:\n";
+	for (int i = 0; i < count; i++) {
+		cout << "\nLaptop " << i + 1 << ":\n";
+		laptops[i].checkSpecifications();
+	}
 }
 
 int main() {
-    int count;
+	int count;
 
-    cout << "Enter number of laptops: ";
-    cin >> count;
+	cout << "Enter number of laptops: ";
+	cin >> count;
 
-    if (count <= 0) {
-        cout << "Invalid number of laptops. Exiting program.\n";
-        return 1;
-    }
+	if (count <= 0) {
+		cout << "Invalid number of laptops. Exiting program.\n";
+		return 1;
+	}
 
-    Laptop* laptops = new Laptop[count];
+	Laptop* laptops = new Laptop[count];
 
-    for (int i = 0; i < count; i++) {
-        string brand, model, processor;
-        int RAM, storage;
+	for (int i = 0; i < count; i++) {
+		string brand, model, processor;
+		int RAM, storage;
 
-        cout << "Laptop [" << i + 1 << "]\n";
-        cout << "Brand: ";
-        cin >> brand;
-        cout << "Model: ";
-        cin >> model;
-        cout << "Processor: ";
-        cin >> processor;
-        cout << "RAM (in GB): ";
-        cin >> RAM;
-        cout << "Storage (in GB): ";
-        cin >> storage;
+		cout << "Laptop [" << i + 1 << "]\n";
+		cout << "Brand: ";
+		cin >> brand;
+		cout << "Model: ";
+		cin >> model;
+		cout << "Processor: ";
+		cin >> processor;
+		cout << "RAM (in GB): ";
+		cin >> RAM;
+		cout << "Storage (in GB): ";
+		cin >> storage;
 
-        laptops[i] = Laptop(brand, model, processor, RAM, storage);
-    }
+		laptops[i] = Laptop(brand, model, processor, RAM, storage);
+	}
 
-    int choice;
-    string program;
-    int laptopIndex1, laptopIndex2;
+	int choice;
+	string program;
+	int laptopIndex1, laptopIndex2;
 
-    while (true) {
-        cout << "\nMenu:\n";
-        cout << "1. Turn ON a Laptop\n";
-        cout << "2. Turn OFF a Laptop\n";
-        cout << "3. Run a Program on a Laptop\n";
-        cout << "4. Check Specifications of a Laptop\n";
-        cout << "5. Compare Two Laptops\n";
-        cout << "6. Display All Laptops\n";
-        cout << "7. Exit\n";
-        cout << "Enter choice: ";
-        cin >> choice;
+	while (true) {
+		cout << "\nMenu:\n";
+		cout << "1. Turn ON a Laptop\n";
+		cout << "2. Turn OFF a Laptop\n";
+		cout << "3. Run a Program on a Laptop\n";
+		cout << "4. Check Specifications of a Laptop\n";
+		cout << "5. Compare Two Laptops\n";
+		cout << "6. Display All Laptops\n";
+		cout << "7. Exit\n";
+		cout << "Enter choice: ";
+		cin >> choice;
 
-        if (choice == 7) {
-            cout << "Exiting program.\n";
-            delete[] laptops;
-            return 0;
-        }
+		if (choice == 7) {
+			cout << "Exiting program.\n";
+			delete[] laptops;
+			return 0;
+		}
 
-        switch (choice) {
-            case 1:
-                cout << "Enter laptop index (1-" << count << "): ";
-                cin >> laptopIndex1;
-                laptopIndex1--;
-                if (laptopIndex1 < 0 || laptopIndex1 >= count) {
-                    cout << "Invalid laptop index. Try again.\n";
-                    continue;
-                }
-                laptops[laptopIndex1].turnOn();
-                break;
-            case 2:
-                cout << "Enter laptop index (1-" << count << "): ";
-                cin >> laptopIndex1;
-                laptopIndex1--;
-                if (laptopIndex1 < 0 || laptopIndex1 >= count) {
-                    cout << "Invalid laptop index. Try again.\n";
-                    continue;
-                }
-                laptops[laptopIndex1].turnOff();
-                break;
-            case 3:
-                cout << "Enter laptop index (1-" << count << "): ";
-                cin >> laptopIndex1;
-                laptopIndex1--;
-                if (laptopIndex1 < 0 || laptopIndex1 >= count) {
-                    cout << "Invalid laptop index. Try again.\n";
-                    continue;
-                }
-                cout << "Enter program name: ";
-                cin.ignore();  // Clear input buffer before getline
-                getline(cin, program);
-                laptops[laptopIndex1].runProgram(program);
-                break;
-            case 4:
-                cout << "Enter laptop index (1-" << count << "): ";
-                cin >> laptopIndex1;
-                laptopIndex1--;
-                if (laptopIndex1 < 0 || laptopIndex1 >= count) {
-                    cout << "Invalid laptop index. Try again.\n";
-                    continue;
-                }
-                laptops[laptopIndex1].checkSpecifications();
-                break;
-            case 5:
-                cout << "Enter the index of the first laptop to compare (1-" << count << "): ";
-                cin >> laptopIndex1;
-                laptopIndex1--;
+		switch (choice) {
+		case 1:
+			cout << "Enter laptop index (1-" << count << "): ";
+			cin >> laptopIndex1;
+			laptopIndex1--;
+			if (laptopIndex1 < 0 || laptopIndex1 >= count) {
+				cout << "Invalid laptop index. Try again.\n";
+				continue;
+			}
+			laptops[laptopIndex1].turnOn();
+			break;
+		case 2:
+			cout << "Enter laptop index (1-" << count << "): ";
+			cin >> laptopIndex1;
+			laptopIndex1--;
+			if (laptopIndex1 < 0 || laptopIndex1 >= count) {
+				cout << "Invalid laptop index. Try again.\n";
+				continue;
+			}
+			laptops[laptopIndex1].turnOff();
+			break;
+		case 3:
+			cout << "Enter laptop index (1-" << count << "): ";
+			cin >> laptopIndex1;
+			laptopIndex1--;
+			if (laptopIndex1 < 0 || laptopIndex1 >= count) {
+				cout << "Invalid laptop index. Try again.\n";
+				continue;
+			}
+			cout << "Enter program name: ";
+			cin.ignore();  // Clear input buffer before getline
+			getline(cin, program);
+			laptops[laptopIndex1].runProgram(program);
+			break;
+		case 4:
+			cout << "Enter laptop index (1-" << count << "): ";
+			cin >> laptopIndex1;
+			laptopIndex1--;
+			if (laptopIndex1 < 0 || laptopIndex1 >= count) {
+				cout << "Invalid laptop index. Try again.\n";
+				continue;
+			}
+			laptops[laptopIndex1].checkSpecifications();
+			break;
+		case 5:
+			cout << "Enter the index of the first laptop to compare (1-" << count << "): ";
+			cin >> laptopIndex1;
+			laptopIndex1--;
 
-                cout << "Enter the index of the second laptop to compare (1-" << count << "): ";
-                cin >> laptopIndex2;
-                laptopIndex2--;
+			cout << "Enter the index of the second laptop to compare (1-" << count << "): ";
+			cin >> laptopIndex2;
+			laptopIndex2--;
 
-                if (laptopIndex1 < 0 || laptopIndex2 < 0 || laptopIndex1 >= count || laptopIndex2 >= count) {
-                    cout << "Invalid laptop index. Try again.\n";
-                } else {
-                    compareLaptops(laptops, laptopIndex1, laptopIndex2);
-                }
-                break;
-            case 6:
-                displayAllLaptops(laptops, count);
-                break;
-            default:
-                cout << "Invalid choice. Try again.\n";
-        }
-    }
+			if (laptopIndex1 < 0 || laptopIndex2 < 0 || laptopIndex1 >= count || laptopIndex2 >= count) {
+				cout << "Invalid laptop index. Try again.\n";
+			} else {
+				compareLaptops(laptops, laptopIndex1, laptopIndex2);
+			}
+			break;
+		case 6:
+			displayAllLaptops(laptops, count);
+			break;
+		default:
+			cout << "Invalid choice. Try again.\n";
+		}
+	}
 }
