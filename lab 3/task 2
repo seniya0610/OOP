@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class TeaMug {
+private:
+	string brand;
+	string color;
+	int capacity;
+	int currentFillLevel;
+
+public:
+	TeaMug(string b, string c, int cap) {
+		brand = b;
+		color = c;
+		capacity = cap;
+		currentFillLevel = cap; // Assume the mug is initially full
+	}
+
+	void sip(int amount) {
+		if (currentFillLevel == 0) {
+			cout << "The mug is empty." << endl;
+		} else if (amount > currentFillLevel) {
+			cout << "Not enough tea! You only have " << currentFillLevel << "ml left." << endl;
+			cout << "Would you like to refill? (1 for Yes, 0 for No): ";
+			int choice;
+			cin >> choice;
+
+			if (choice == 1) {
+				refill();
+			} else {
+				cout << "Continuing without refilling. Sipping not possible. Try using less amount." << endl;
+			}
+		} else {
+			currentFillLevel -= amount;
+			cout << "Sipped " << amount << "ml of tea. Current fill level: " << currentFillLevel << "ml" << endl;
+
+			if (currentFillLevel == 0) {
+				cout << "The mug is empty." << endl;
+			}
+		}
+	}
+
+	void refill() {
+		currentFillLevel = capacity;
+		cout << color << " mug refilled. Current fill level: " << currentFillLevel << "ml" << endl;
+	}
+
+	void checkStatus() {
+		cout << brand << " " << color << " mug - Fill level: " << currentFillLevel << "/" << capacity << "ml" << endl;
+	}
+};
+
+int main() {
+	string b, c;
+	int cap;
+
+	cout << "Enter brand: ";
+	cin >> b;
+	cout << "Enter color: ";
+	cin >> c;
+	cout << "Enter capacity (in ml): ";
+	cin >> cap;
+
+	TeaMug mug(b, c, cap);
+
+	int choice, amount;
+
+	while (true) {
+		cout << "\nMenu:\n";
+		cout << "1. Sip Tea\n";
+		cout << "2. Refill Mug\n";
+		cout << "3. Check Status\n";
+		cout << "4. Exit\n";
+		cout << "Enter choice: ";
+		cin >> choice;
+
+		switch (choice) {
+		case 1:
+			cout << "Enter amount of tea to sip (in ml): ";
+			cin >> amount;
+			mug.sip(amount);
+			break;
+		case 2:
+			mug.refill();
+			break;
+		case 3:
+			mug.checkStatus();
+			break;
+		case 4:
+			cout << "Exiting program.\n";
+			return 0;
+		default:
+			cout << "Invalid choice. Try again.\n";
+		}
+	}
+}
