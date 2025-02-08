@@ -1,0 +1,92 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Planner {
+private:
+    int months = 12;
+    int days = 31;
+    string tasks[12][31];
+
+public:
+    Planner() {
+        for (int i = 0; i < months; i++) {
+            for (int j = 0; j < days; j++) {
+                tasks[i][j] = "No tasks";
+            }
+        }
+    }
+
+    void addTask(int m, int d, string task) {
+        if (m < 1 || m > months || d < 1 || d > days) {
+            cout << "Invalid month or day. Please enter a valid date." << endl;
+            return;
+        }
+        tasks[m - 1][d - 1] = task;
+        cout << "Task added for month " << m << ", day " << d << ": " << task << endl;
+    }
+
+    void removeTask(int m, int d) {
+        if (m < 1 || m > months || d < 1 || d > days) {
+            cout << "Invalid month or day. Please enter a valid date." << endl;
+            return;
+        }
+        tasks[m - 1][d - 1] = "No tasks";
+        cout << "Task removed for month " << m << ", day " << d << endl;
+    }
+
+    void displayTasks() {
+        for (int i = 0; i < months; i++) {
+            cout << "Tasks for month " << i + 1 << ":" << endl;
+            for (int j = 0; j < days; j++) {
+                if (tasks[i][j] != "No tasks") {
+                    cout << "Day " << (j + 1) << ": " << tasks[i][j] << endl;
+                }
+            }
+        }
+    }
+};
+
+int main() {
+    Planner planner;
+    int choice, month, day;
+    string task;
+
+    while (true) {
+        cout << "\nMenu:\n";
+        cout << "1. Add Task\n";
+        cout << "2. Remove Task\n";
+        cout << "3. Display Tasks\n";
+        cout << "4. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter month (1-12): ";
+                cin >> month;
+                cout << "Enter day (1-31): ";
+                cin >> day;
+                cout << "Enter task: ";
+                cin.ignore();
+                getline(cin, task);
+                planner.addTask(month, day, task);
+                break;
+            case 2:
+                cout << "Enter month (1-12): ";
+                cin >> month;
+                cout << "Enter day (1-31): ";
+                cin >> day;
+                planner.removeTask(month, day);
+                break;
+            case 3:
+                planner.displayTasks();
+                break;
+            case 4:
+                cout << "Exiting program.\n";
+                return 0;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+    }
+}
