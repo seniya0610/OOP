@@ -2,13 +2,12 @@
 #include <string>
 using namespace std;
 
-// Forward declarations
 class Mentor;
 class Student;
 class Sport;
 class Skill;
 
-// Skill Class
+//skill class
 class Skill {
 private:
     int skillID;
@@ -17,13 +16,13 @@ private:
 
 public:
     
-    Skill() {
+    Skill() { //default constructor
         skillID = 0;
         skillName = "";
         description = "";
     }
 
-    Skill(int ID, string name, string d) {
+    Skill(int ID, string name, string d) { //parameterized constructor
         skillID = ID;
         skillName = name;
         description = d;
@@ -83,7 +82,7 @@ public:
             skillCount++;
             cout << "Skill added to " << name << ".\n";
         } else {
-            cout << "Cannot add more skills, limit reached.\n";
+            cout << "Cannot add more skills\n";
         }
     }
 
@@ -117,6 +116,20 @@ public:
 };
 
 int main() {
-   
+    Skill skill1(1, "Serving", "Learn how to serve accurately.");
+    Skill skill2(2, "Forehand", "Master the forehand stroke.");
+    Skill skill3(3, "Backhand", "Learn the backhand stroke.");
+    
+    Sport tennis(101, "Tennis", "A racket sport played individually or in pairs.");
+
+    tennis.addSkill(skill1);
+    tennis.addSkill(skill2);
+    tennis.addSkill(skill3);
+
+    tennis.showSportDetails();
+    
+    tennis.removeSkill(2);
+    tennis.showSportDetails();
+
     return 0;
 }
