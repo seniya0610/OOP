@@ -1,0 +1,229 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Forward declarations
+class Mentor;
+class Student;
+class Sport;
+class Skill;
+
+// Skill Class
+class Skill {
+private:
+    int skillID;
+    string skillName;
+    string description;
+
+public:
+    // Default constructor
+    Skill() {
+        skillID = 0;
+        skillName = "";
+        description = "";
+    }
+
+    // Parametrized constructor
+    Skill(int ID, string name, string d) {
+        skillID = ID;
+        skillName = name;
+        description = d;
+    }
+
+    void display() const {
+        cout << "Skill ID: " << skillID << endl;
+        cout << "Skill Name: " << skillName << endl;
+        cout << "Description: " << description << endl;
+    }
+
+    void updateSkillDescription(string newDescription) {
+        description = newDescription;
+        cout << "Skill description updated.\n";
+    }
+
+    int getSkillID() const {
+        return skillID;
+    }
+
+    string getSkillName() const {
+        return skillName;
+    }
+
+    string getSkillDescription() const {
+        return description;
+    }
+};
+
+// Sport Class
+class Sport {
+private:
+    int sportID;
+    string name;
+    string description;
+    Skill requiredSkills[3];
+    int skillCount;
+
+public:
+    // Parametrized constructor
+    Sport(int id, string n, string d) {
+        sportID = id;
+        name = n;
+        description = d;
+        skillCount = 0;
+    }
+
+    // Default constructor
+    Sport() {
+        sportID = 0;
+        name = "";
+        description = "";
+        skillCount = 0;
+    }
+
+    void addSkill(Skill s) {
+        if (skillCount < 3) {
+            requiredSkills[skillCount] = s;
+            skillCount++;
+            cout << "Skill added to " << name << ".\n";
+        } else {
+            cout << "Cannot add more skills, limit reached.\n";
+        }
+    }
+
+    void removeSkill(int sID) {
+        for (int i = 0; i < skillCount; i++) {
+            if (requiredSkills[i].getSkillID() == sID) {
+                for (int j = i; j < skillCount - 1; j++) {
+                    requiredSkills[j] = requiredSkills[j + 1];
+                }
+                skillCount--;
+                cout << "Skill removed.\n";
+                return;
+            }
+        }
+        cout << "Skill not found.\n";
+    }
+
+    void showSportDetails() const {
+        cout << "Sport ID: " << sportID << endl;
+        cout << "Name: " << name << endl;
+        cout << "Description: " << description << endl;
+        cout << "Required Skills:\n";
+        for (int i = 0; i < skillCount; i++) {
+            requiredSkills[i].display();
+        }
+    }
+
+    int getSportID() const {
+        return sportID;
+    }
+};
+
+// Mentor Class
+class Mentor {
+private:
+    int mentorID;
+    string name;
+    Sport sportsExpertise[3];
+    int expertiseCount;
+    int maxLearners;
+    Student* assignedLearners[3];
+    int learnerCount;
+
+public:
+    // Parametrized constructor
+    Mentor(int id, string n, int max) {
+        mentorID = id;
+        name = n;
+        maxLearners = max;
+        expertiseCount = 0;
+        learnerCount = 0;
+    }
+
+    // Default constructor
+    Mentor() {
+        mentorID = 0;
+        name = "";
+        maxLearners = 0;
+        expertiseCount = 0;
+        learnerCount = 0;
+    }
+
+    void assignLearner(Student& s) {
+        if (learnerCount < maxLearners) {
+            assignedLearners[learnerCount] = &s;
+            learnerCount++;
+            cout << s.getName() << " assigned to mentor " << name << ".\n";
+        } else {
+            cout << "Mentor " << name << " has reached maximum capacity.\n";
+        }
+    }
+
+    void removeLearner(Student& s) {
+        for (int i = 0; i < learnerCount; i++) {
+            if (assignedLearners[i]->getStudentID() == s.getStudentID()) {
+                for (int j = i; j < learnerCount - 1; j++) {
+                    assignedLearners[j] = assignedLearners[j + 1];
+                }
+                learnerCount--;
+                cout << s.getName() << " removed from mentor " << name << ".\n";
+                return;
+            }
+        }
+        cout << "Student not found in mentor's list.\n";
+    }
+
+    void viewLearners() const {
+        cout << "Learners assigned to mentor " << name << ":\n";
+        for (int i = 0; i < learnerCount; i++) {
+            cout << assignedLearners[i]->getName() << endl;
+        }
+    }
+
+    void provideGuidance() const {
+        cout << "Mentor " << name << " is providing guidance.\n";
+    }
+
+    int getMentorID() const {
+        return mentorID;
+    }
+
+    string getName() const {
+        return name;
+    }
+};
+
+int main() {
+    Skill skill1(1, "Serving", "Learn how to serve accurately.");
+    Skill skill2(2, "Forehand", "Master the forehand stroke.");
+
+    Sport tennis(101, "Tennis", "A racket sport played individually or in pairs.");
+    tennis.addSkill(skill1);
+    tennis.addSkill(skill2);
+
+    Mentor ali(201, "Ali", 3);
+
+    Student saad(301, "Saad", 20);
+    Student ayesha(302, "Ayesha", 19);
+    Student bilal(303, "Bilal", 21);
+    Student zainab(304, "Zainab", 22);
+
+   
+    saad.registerForMentorship(ali);
+    ayesha.registerForMentorship(ali);
+    bilal.registerForMentorship(ali);
+    zainab.registerForMentorship(ali);
+
+    saad.viewMentorDetails();
+
+    saad.updateSportsInterest(tennis);
+
+    ali.viewLearners();
+
+    ali.removeLearner(saad);
+    ali.viewLearners();
+|
+    ali.provideGuidance();
+
+    return 0;
+}
