@@ -1,0 +1,200 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+#define MAX_LAPTOPS 100
+
+struct Laptop {
+	string brand;
+	string model;
+	string processor;
+	int RAM;
+	int storage;
+	bool isOn;
+};
+
+class LaptopStore {
+private:
+	Laptop* list;
+	int count;
+
+public:
+	LaptopStore() {
+		list = new Laptop[MAX_LAPTOPS];
+		count = 0;
+	}
+
+	~LaptopStore() {
+		delete[] list;
+	}
+
+	void addLaptop(string b, string m, string p, int r, int s) {
+		if (count >= MAX_LAPTOPS) {
+			cout << "Inventory is full.\n";
+		} else {
+			list[count].brand = b;
+			list[count].model = m;
+			list[count].processor = p;
+			list[count].RAM = r;
+			list[count].storage = s;
+			list[count].isOn = false;
+			count++;
+			cout << "Added Laptop: " << b << " " << m << " with " << r << "GB RAM and " << s << "GB Storage\n";
+		}
+	}
+
+	void displayLaptops() {
+		if (count == 0) {
+			cout << "Inventory is empty.\n";
+			return;
+		}
+		cout << "Laptop Inventory:\n";
+		for (int i = 0; i < count; i++) {
+			cout << "Brand: " << list[i].brand << ", Model: " << list[i].model
+			     << ", Processor: " << list[i].processor << ", RAM: " << list[i].RAM
+			     << "GB, Storage: " << list[i].storage << "GB, Status: "
+			     << (list[i].isOn ? "ON" : "OFF") << "\n";
+		}
+	}
+
+	void turnOnLaptop(string m) {
+		bool isfound = false;
+		for (int i = 0; i < count; i++) {
+			if (list[i].model == m) {
+				isfound = true;
+				if (list[i].isOn == false) {
+					list[i].isOn = true;
+					cout << "Laptop turned ON\n";
+				} else {
+					cout << "Laptop is already ON\n";
+				}
+				break;
+			}
+		}
+		if (!isfound) {
+			cout << "Laptop not found.\n";
+		}
+	}
+
+	void turnOffLaptop(string m) {
+		bool isfound = false;
+		for (int i = 0; i < count; i++) {
+			if (list[i].model == m) {
+				isfound = true;
+				if (list[i].isOn == false) {
+					cout << "Laptop is already OFF\n";
+				} else {
+					list[i].isOn = false;
+					cout << "Laptop turned OFF\n";
+				}
+				break;
+			}
+		}
+		if (!isfound) {
+			cout << "Laptop not found.\n";
+		}
+	}
+
+	void removeLaptop(string m) {
+		for (int i = 0; i < count; i++) {
+			if (list[i].model == m) {
+				for (int j = i; j < count - 1; j++) {
+					list[j] = list[j + 1];
+				}
+				count--;
+				cout << "Laptop " << m << " removed from inventory.\n";
+				return;
+			}
+		}
+		cout << "Laptop not found.\n";
+	}
+
+	void compareLaptops(string model1, string model2) {
+		Laptop laptop1, laptop2;
+		bool found1 = false, found2 = false;
+
+		for (int i = 0; i < count; i++) {
+			if (list[i].model == model1) {
+				laptop1 = list[i];
+				found1 = true;
+			}
+			if (list[i].model == model2) {
+				laptop2 = list[i];
+				found2 = true;
+			}
+		}
+
+		if (!found1 || !found2) {
+			cout << "One or both laptops not found.\n";
+			return;
+		}
+
+		cout << "Comparing Laptops " << model1 << " and " << model2 << ":\n";
+		if (laptop1.brand != laptop2.brand) cout << "Brand: " << laptop1.brand << " vs " << laptop2.brand << "\n";
+		if (laptop1.processor != laptop2.processor) cout << "Processor: " << laptop1.processor << " vs " << laptop2.processor << "\n";
+		if (laptop1.RAM != laptop2.RAM) cout << "RAM: " << laptop1.RAM << "GB vs " << laptop2.RAM << "GB\n";
+		if (laptop1.storage != laptop2.storage) cout << "Storage: " << laptop1.storage << "GB vs " << laptop2.storage << "GB\n";
+		if (laptop1.isOn != laptop2.isOn) cout << "Status: " << (laptop1.isOn ? "ON" : "OFF") << " vs " << (laptop2.isOn ? "ON" : "OFF") << "\n";
+	}
+
+};
+
+int main() {
+	LaptopStore store;
+	int choice;
+	string brand, model, processor;
+	int RAM, storage;
+
+	while (true) {
+		cout << "\nMenu:\n1. Add Laptop\n2. View Laptops\n3. Turn On Laptop\n4. Turn Off Laptop\n5. Remove Laptop\n6. Compare Laptops\n7. Exit\nEnter choice: ";
+		cin >> choice;
+
+		string model1, model2;
+
+		switch (choice) {
+		case 1:
+			cout << "Brand: ";
+			cin >> brand;
+			cout << "Model: ";
+			cin >> model;
+			cout << "Processor: ";
+			cin >> processor;
+			cout << "RAM (in GB): ";
+			cin >> RAM;
+			cout << "Storage (in GB): ";
+			cin >> storage;
+			store.addLaptop(brand, model, processor, RAM, storage);
+			break;
+		case 2:
+			store.displayLaptops();
+			break;
+		case 3:
+			cout << "Enter Laptop Model: ";
+			cin >> model;
+			store.turnOnLaptop(model);
+			break;
+		case 4:
+			cout << "Enter Laptop Model: ";
+			cin >> model;
+			store.turnOffLaptop(model);
+			break;
+		case 5:
+			cout << "Enter Laptop Model to Remove: ";
+			cin >> model;
+			store.removeLaptop(model);
+			break;
+		case 6:
+			cout << "Enter the first Laptop Model: ";
+			cin >> model1;
+			cout << "Enter the second Laptop Model: ";
+			cin >> model2;
+			store.compareLaptops(model1, model2);
+			break;
+		case 7:
+			cout << "Exiting...\n";
+			return 0;
+		default:
+			cout << "Invalid choice. Try again.\n";
+		}
+	}
+}
