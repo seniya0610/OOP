@@ -122,7 +122,7 @@ private:
     Sport sportsExpertise[3];
     int expertiseCount;
     int maxLearners;
-    int assignedLearners[5];
+    Student* assignedLearners[5];
     int learnerCount;
 
 public:
@@ -164,7 +164,7 @@ private:
     int age;
     Sport sportsInterest[3];
     int interestCount;
-    int mentorAssigned;
+    Mentor* mentorAssigned;
 
 public:
     Student() {
