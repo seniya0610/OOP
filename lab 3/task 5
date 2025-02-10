@@ -5,105 +5,137 @@ using namespace std;
 #define MAX_ITEM 100
 
 struct Item {
-    string name;
-    double price;
+	string name;
+	double price;
 };
 
 class GroceryStore {
 private:
-    Item* GroceryList;
-    int count;
+	Item* GroceryList;
+	int count;
 
 public:
-    GroceryStore() {
-        GroceryList = new Item[MAX_ITEM];
-        count = 0;
-    }
+	GroceryStore() {
+		GroceryList = new Item[MAX_ITEM];
+		count = 0;
+	}
 
-    ~GroceryStore() {
-        delete[] GroceryList;
-    }
+	~GroceryStore() {
+		delete[] GroceryList;
+	}
 
-    void addItem(string n, double p) {
-        if (count >= MAX_ITEM) {
-            cout << "Inventory is full!\n";
-            return;
-        }
-        GroceryList[count].name = n;
-        GroceryList[count].price = p;
-        count++;
-        cout << "Added: " << n << " - Rs. " << p << "\n";
-    }
+	void addItem(string n, double p) {
+		if (count >= MAX_ITEM) {
+			cout << "Inventory is full!\n";
+			return;
+		}
+		GroceryList[count].name = n;
+		GroceryList[count].price = p;
+		count++;
+		cout << "Added: " << n << " - Rs. " << p << "\n";
+	}
 
-    void updateItem(string n, double p) {
-        for (int i = 0; i < count; i++) {
-            if (GroceryList[i].name == n) {
-                GroceryList[i].price = p;
-                cout << "Updated " << n << " to Rs. " << p << "\n";
-                return;
-            }
-        }
-        cout << "Item not found.\n";
-    }
+	void updateItem(string n, double p) {
+		for (int i = 0; i < count; i++) {
+			if (GroceryList[i].name == n) {
+				GroceryList[i].price = p;
+				cout << "Updated " << n << " to Rs. " << p << "\n";
+				return;
+			}
+		}
+		cout << "Item not found.\n";
+	}
 
-    void display() {
-        if (count == 0) {
-            cout << "Inventory is empty.\n";
-            return;
-        }
-        cout << "Inventory:\n";
-        for (int i = 0; i < count; i++) {
-            cout << GroceryList[i].name << " - Rs. " << GroceryList[i].price << "\n";
-        }
-    }
+	void display() {
+		if (count == 0) {
+			cout << "Inventory is empty.\n";
+			return;
+		}
+		cout << "Inventory:\n";
+		for (int i = 0; i < count; i++) {
+			cout << GroceryList[i].name << " - Rs. " << GroceryList[i].price << "\n";
+		}
+	}
 
-    void generateReceipt() {
-        double total = 0;
-        cout << "\nReceipt:\n";
-        for (int i = 0; i < count; i++) {
-            cout << GroceryList[i].name << " - Rs. " << GroceryList[i].price << "\n";
-            total += GroceryList[i].price;
-        }
-        cout << "Total: Rs. " << total << "\n";
-    }
+	void generateReceipt() {
+		if (count == 0) {
+			cout << "Inventory is empty.\n";
+			return;
+		}
+
+		double total = 0.0;
+		string itemName;
+		char continueAdding;
+
+		cout << "Generating Receipt...\n";
+
+		while (true) {
+			cout << "Enter item name: ";
+			getline(cin, itemName);
+
+			bool found = false;
+
+			for (int i = 0; i < count; i++) {
+				if (GroceryList[i].name == itemName) {
+					found = true;
+					total += GroceryList[i].price;
+					cout << "Added: " << itemName << " - Rs. " << GroceryList[i].price << "\n";
+					break;
+				}
+			}
+
+			if (!found) {
+				cout << "Item '" << itemName << "' not found in the inventory.\n";
+			}
+
+			cout << "Do you want to add another item? (y/n): ";
+			cin >> continueAdding;
+
+			if (continueAdding == 'n' || continueAdding == 'N') {
+				break;
+			}
+			cin.ignore();
+		}
+		cout << "\nTotal: Rs. " << total << "\n";
+	}
 };
 
 int main() {
-    GroceryStore store;
-    int choice;
-    string name;
-    double price;
+	GroceryStore store;
+	int choice;
+	string name;
+	double price;
 
-    while (true) {
-        cout << "\nMenu:\n1. Add Item\n2. Update Price\n3. View Inventory\n4. Generate Receipt\n5. Exit\nEnter choice: ";
-        cin >> choice;
+	while (true) {
+		cout << "\nMenu:\n1. Add Item\n2. Update Price\n3. View Inventory\n4. Generate Receipt\n5. Exit\nEnter choice: ";
+		cin >> choice;
 
-        switch (choice) {
-            case 1:
-                cout << "Item name: ";
-                cin >> name;
-                cout << "Item price: ";
-                cin >> price;
-                store.addItem(name, price);
-                break;
-            case 2:
-                cout << "Item name: ";
-                cin >> name;
-                cout << "New price: ";
-                cin >> price;
-                store.updateItem(name, price);
-                break;
-            case 3:
-                store.display();
-                break;
-            case 4:
-                store.generateReceipt();
-                break;
-            case 5:
-                cout << "Exiting...\n";
-                return 0;
-            default:
-                cout << "Invalid choice. Try again.\n";
-        }
-    }
+		switch (choice) {
+		case 1:
+			cout << "Item name: ";
+			cin >> name;
+			cout << "Item price: ";
+			cin >> price;
+			store.addItem(name, price);
+			break;
+		case 2:
+			cout << "Item name: ";
+			cin >> name;
+			cout << "New price: ";
+			cin >> price;
+			store.updateItem(name, price);
+			break;
+		case 3:
+			store.display();
+			break;
+		case 4:
+			store.generateReceipt();
+			break;
+		case 5:
+			cout << "Exiting...\n";
+			return 0;
+		default:
+			cout << "Invalid choice. Try again.\n";
+		}
+	}
 }
