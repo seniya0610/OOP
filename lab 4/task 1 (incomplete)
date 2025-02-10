@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+	string title;
+	double price;
+	int stock;
+
+public:
+	Book() {
+		title = "unknown";
+		price = 0.0;
+		stock = 30;
+	}
+
+	Book(string t, double p, int s) {
+		title = t;
+		price = p;
+		stock = s;
+	}
+
+	void UpdateBook(string nt, double np, int ns) {
+		title = nt;
+		cout << "Title updated to: " << title << endl;
+		price = np;
+		cout << "Price updated to: " << price << endl;
+
+		if (ns == 0) {
+			cout << "Stock finished!" << endl;
+		} else {
+			stock = ns;
+			cout << "Stock updated to: " << stock << endl;
+		}
+
+		alert();
+	}
+
+	void trackStockLevels() {
+		cout << "Current stock for " << title << ": " << stock << endl;
+	}
+
+	void alert() {
+		if (stock < 5) {
+			cout << "stock fallen below 5" << endl;
+		}
+	}
+
+	void displayBookInfo() {
+		cout << "Title: " << title << endl;
+		cout << "Price: " << price << endl;
+		cout << "Stock: " << stock << endl;
+	}
+};
+
+int main() {
+
+	Book myBook("The Great Gatsby", 15, 8);
+	myBook.displayBookInfo();
+	myBook.UpdateBook("The Great Gatsby", 16, 2);
+	myBook.alert();
+
+	return 0;
+}
