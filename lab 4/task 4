@@ -1,0 +1,129 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    double price;
+    int stock;
+
+public:
+    Book() {
+        title = "Unknown";
+        price = 0.0;
+        stock = 30;
+    }
+
+    Book(string t, double p, int s) {
+        title = t;
+        price = p;
+        stock = s;
+    }
+    
+    Book(Book &copybook) {
+        title = copybook.title;
+        price = copybook.price;
+        stock = copybook.stock;
+    }
+    
+    ~Book() {
+        cout << "Destructor called for '" << title << "'." << endl;
+    }
+
+    void UpdateBook() {
+        cout << "Enter new title: ";
+        cin.ignore();
+        getline(cin, title);
+        cout << "Enter new price: ";
+        cin >> price;
+        cout << "Enter new stock: ";
+        cin >> stock;
+        cout << "Book details updated successfully!" << endl;
+        displayBookInfo();
+        alert();
+    }
+
+    void purchase() {
+        int quantity;
+        cout << "Enter quantity to purchase: ";
+        cin >> quantity;
+        if (quantity > stock) {
+            cout << "Error: Not enough stock. Available: " << stock << " units." << endl;
+        } else {
+            double totalPrice = calculatePrice(quantity);
+            stock -= quantity;
+            cout << "Purchased " << quantity << " copies of '" << title << "' for $" << totalPrice << "." << endl;
+            displayBookInfo();
+            alert();
+        }
+    }
+
+    double calculatePrice(int quantity) {
+        double finalPrice = this->price;  // Use 'this' pointer to access class attribute
+        if (quantity > 10) {
+            finalPrice *= 0.90;  // 10% discount for bulk purchase
+        } else if (quantity > 5) {
+            finalPrice *= 0.95;  // 5% discount for bulk purchase
+        }
+        return finalPrice * quantity;  // Total price after discount
+    }
+
+    void trackStockLevels() const {
+        cout << "Current stock for '" << title << "': " << stock << " units." << endl;
+    }
+
+    void alert() const {
+        if (stock < 5) {
+            cout << "Warning: Stock for '" << title << "' has fallen below 5 units!" << endl;
+        }
+    }
+
+    void displayBookInfo() const {
+        cout << "\nBook Information:" << endl;
+        cout << "Title: " << title << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Stock: " << stock << " units" << endl;
+    }
+};
+
+int main() {
+    string title;
+    double price;
+    int stock;
+
+    cout << "Enter book title: ";
+    getline(cin, title);
+    cout << "Enter book price: ";
+    cin >> price;
+    cout << "Enter book stock: ";
+    cin >> stock;
+
+    Book myBook(title, price, stock);
+    myBook.displayBookInfo();
+
+    int choice;
+    do {
+        cout << "\n1. Update Book Details\n2. Purchase Books\n3. Track Stock Levels\n4. Exit\nEnter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                myBook.UpdateBook();
+                break;
+            case 2:
+                myBook.purchase();
+                break;
+            case 3:
+                myBook.trackStockLevels();
+                break;
+            case 4:
+                cout << "Exiting program." << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
