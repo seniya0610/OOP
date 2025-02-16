@@ -1,0 +1,81 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    double price;
+    int stock;
+
+public:
+    Book() {
+        title = "Unknown";
+        price = 0.0;
+        stock = 30;
+    }
+
+    Book(string t, double p, int s) {
+        title = t;
+        price = p;
+        stock = s;
+    }
+
+    void UpdateBook(string nt, double np, int ns) {
+        title = nt;
+        price = np;
+        stock = ns;
+        cout << "Book details updated successfully!" << endl;
+        displayBookInfo();
+        alert();
+    }
+
+    void purchase(int quantity) {
+        if (quantity > stock) {
+            cout << "Error: Not enough stock. Available: " << stock << " units." << endl;
+        } else {
+            applyDiscount(quantity);
+            stock -= quantity;
+            cout << "Purchased " << quantity << " copies of '" << title << "'." << endl;
+            displayBookInfo();
+            alert();
+        }
+    }
+
+    void applyDiscount(int quantity) {
+        if (quantity > 10) {
+            price = price * 0.90;
+            cout << "10 percent discount applied" << endl;
+        } else if (quantity > 5) {
+            price = price * 0.95;
+            cout << "5 percent discount applied" << endl;
+        }
+    }
+
+    void trackStockLevels() const {
+        cout << "Current stock for '" << title << "': " << stock << " units." << endl;
+    }
+
+    void alert() const {
+        if (stock < 5) {
+            cout << "Warning: Stock for '" << title << "' has fallen below 5 units!" << endl;
+        }
+    }
+
+    void displayBookInfo() const {
+        cout << "\nBook Information:" << endl;
+        cout << "Title: " << title << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Stock: " << stock << " units" << endl;
+    }
+};
+
+int main() {
+    Book myBook("The Great Gatsby", 15, 20);
+    myBook.displayBookInfo();
+    myBook.purchase(12);
+    myBook.purchase(6);
+    myBook.UpdateBook("The Great Gatsby", 16, 2);
+
+    return 0;
+}
