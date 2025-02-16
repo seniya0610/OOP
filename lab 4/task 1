@@ -15,13 +15,7 @@ public:
         stock = 30;
     }
 
-    Book(string t, double p, int s) {
-        title = t;
-        price = p;
-        stock = s;
-    }
-
-void UpdateBook(string nt, double np, int ns) {
+    void UpdateBook(string nt, double np, int ns) {
         title = nt;
         price = np;
         stock = ns;
@@ -52,7 +46,7 @@ void UpdateBook(string nt, double np, int ns) {
     }
 
     void displayBookInfo() const {
-        cout << "\nBook Information:" << endl;
+        cout << "\n--- Book Information ---" << endl;
         cout << "Title: " << title << endl;
         cout << "Price: $" << price << endl;
         cout << "Stock: " << stock << " units" << endl;
@@ -60,11 +54,18 @@ void UpdateBook(string nt, double np, int ns) {
 };
 
 int main() {
-    Book myBook("The Great Gatsby", 15, 8);
+    Book myBook;
+    cout << "Initial Book Details:" << endl;
     myBook.displayBookInfo();
+
+    cout << "\nUpdating book details:" << endl;
+    myBook.UpdateBook("The Great Gatsby", 15, 8);
+
+    cout << "\nAttempting to purchase 5 copies:" << endl;
     myBook.purchase(5);
+
+    cout << "\nAttempting to purchase 4 copies:" << endl;
     myBook.purchase(4);
-    myBook.UpdateBook("The Great Gatsby", 16, 2);
 
     return 0;
 }
