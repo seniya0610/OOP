@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string title;
+    double price;
+    int stock;
+    int bookID;
+    static int nextID;
+
+public:
+    Book() {
+        title = "Unknown";
+        price = 0.0;
+        stock = 30;
+        bookID = nextID++;
+    }
+
+    Book(string t, double p, int s) {
+        title = t;
+        price = p;
+        stock = s;
+        bookID = nextID++;
+    }
+
+    Book(const Book &other) {
+        title = other.title;
+        price = other.price;
+        stock = other.stock;
+        bookID = nextID++;
+        cout << "Copy constructor called. Deep copy created for Book ID: " << bookID << endl;
+    }
+
+    ~Book() {
+        cout << "Destructor called for Book ID: " << bookID << " (" << title << ")" << endl;
+    }
+
+    void UpdateBook(string nt, double np, int ns) {
+        title = nt;
+        price = np;
+        stock = ns;
+        cout << "Book details updated successfully for Book ID: " << bookID << endl;
+        displayBookInfo();
+        alert();
+    }
+
+    void purchase(int quantity) {
+        if (quantity > stock) {
+            cout << "Error: Not enough stock for Book ID: " << bookID << " Available: " << stock << " units." << endl;
+        } else {
+            double totalPrice = calculatePrice(quantity);
+            stock -= quantity;
+            cout << "Purchased " << quantity << " copies of '" << title << "' for $" << totalPrice << "." << endl;
+            displayBookInfo();
+            alert();
+        }
+    }
+
+    double calculatePrice(int quantity) {
+        double finalPrice = this->price;
+        if (quantity > 10) {
+            finalPrice *= 0.90;
+        } else if (quantity > 5) {
+            finalPrice *= 0.95;
+        }
+        return finalPrice * quantity;
+    }
+
+    void trackStockLevels() const {
+        cout << "Current stock for Book ID: " << bookID << " ('" << title << "'): " << stock << " units." << endl;
+    }
+
+    void alert() const {
+        if (stock < 5) {
+            cout << "Warning: Stock for Book ID: " << bookID << " ('" << title << "') has fallen below 5 units!" << endl;
+        }
+    }
+
+    void displayBookInfo() const {
+        cout << "\n--- Book Information ---" << endl;
+        cout << "Book ID: " << bookID << endl;
+        cout << "Title: " << title << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Stock: " << stock << " units" << endl;
+    }
+};
+
+int Book::nextID = 1;
+
+int main() {
+    int numBooks = 3;
+    Book* books = new Book[numBooks];
+
+    books[0] = Book("The Great Gatsby", 15, 20);
+    books[1] = Book("1984", 10, 15);
+    books[2] = Book("To Kill a Mockingbird", 12, 25);
+
+    cout << "Initial Book Details:" << endl;
+    for (int i = 0; i < numBooks; i++) {
+        books[i].displayBookInfo();
+    }
+
+    cout << "\nSimulating Purchases:" << endl;
+    books[0].purchase(12);
+    books[1].purchase(6);
+    books[2].purchase(30);
+
+    cout << "\nUpdating Book Details:" << endl;
+    books[0].UpdateBook("The Great Gatsby (Special Edition)", 20, 15);
+
+    cout << "\nUpdated Book Details:" << endl;
+    for (int i = 0; i < numBooks; i++) {
+        books[i].displayBookInfo();
+    }
+
+    cout << "\nCreating a copy of a book object:" << endl;
+    Book* copiedBook = new Book(books[1]);
+    copiedBook->displayBookInfo();
+
+    delete[] books;
+    delete copiedBook;
+
+    return 0;
+}
