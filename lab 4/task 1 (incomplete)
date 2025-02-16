@@ -4,62 +4,67 @@ using namespace std;
 
 class Book {
 private:
-	string title;
-	double price;
-	int stock;
+    string title;
+    double price;
+    int stock;
 
 public:
-	Book() {
-		title = "unknown";
-		price = 0.0;
-		stock = 30;
-	}
+    Book() {
+        title = "Unknown";
+        price = 0.0;
+        stock = 30;
+    }
 
-	Book(string t, double p, int s) {
-		title = t;
-		price = p;
-		stock = s;
-	}
+    Book(string t, double p, int s) {
+        title = t;
+        price = p;
+        stock = s;
+    }
 
-	void UpdateBook(string nt, double np, int ns) {
-		title = nt;
-		cout << "Title updated to: " << title << endl;
-		price = np;
-		cout << "Price updated to: " << price << endl;
+void UpdateBook(string nt, double np, int ns) {
+        title = nt;
+        price = np;
+        stock = ns;
+        cout << "Book details updated successfully!" << endl;
+        displayBookInfo();
+        alert();
+    }
 
-		if (ns == 0) {
-			cout << "Stock finished!" << endl;
-		} else {
-			stock = ns;
-			cout << "Stock updated to: " << stock << endl;
-		}
+    void purchase(int quantity) {
+        if (quantity > stock) {
+            cout << "Error: Not enough stock. Available: " << stock << " units." << endl;
+        } else {
+            stock -= quantity;
+            cout << "Purchased " << quantity << " copies of '" << title << "'." << endl;
+            displayBookInfo();
+            alert();
+        }
+    }
 
-		alert();
-	}
+    void trackStockLevels() const {
+        cout << "Current stock for '" << title << "': " << stock << " units." << endl;
+    }
 
-	void trackStockLevels() {
-		cout << "Current stock for " << title << ": " << stock << endl;
-	}
+    void alert() const {
+        if (stock < 5) {
+            cout << "Warning: Stock for '" << title << "' has fallen below 5 units!" << endl;
+        }
+    }
 
-	void alert() {
-		if (stock < 5) {
-			cout << "stock fallen below 5" << endl;
-		}
-	}
-
-	void displayBookInfo() {
-		cout << "Title: " << title << endl;
-		cout << "Price: " << price << endl;
-		cout << "Stock: " << stock << endl;
-	}
+    void displayBookInfo() const {
+        cout << "\nBook Information:" << endl;
+        cout << "Title: " << title << endl;
+        cout << "Price: $" << price << endl;
+        cout << "Stock: " << stock << " units" << endl;
+    }
 };
 
 int main() {
+    Book myBook("The Great Gatsby", 15, 8);
+    myBook.displayBookInfo();
+    myBook.purchase(5);
+    myBook.purchase(4);
+    myBook.UpdateBook("The Great Gatsby", 16, 2);
 
-	Book myBook("The Great Gatsby", 15, 8);
-	myBook.displayBookInfo();
-	myBook.UpdateBook("The Great Gatsby", 16, 2);
-	myBook.alert();
-
-	return 0;
+    return 0;
 }
