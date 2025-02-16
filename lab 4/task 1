@@ -15,10 +15,13 @@ public:
         stock = 30;
     }
 
-    void UpdateBook(string nt, double np, int ns) {
-        title = nt;
-        price = np;
-        stock = ns;
+    void UpdateBook() {
+        cout << "Enter the book title: ";
+        getline(cin, title);
+        cout << "Enter the book price: ";
+        cin >> price;
+        cout << "Enter the book stock: ";
+        cin >> stock;
         cout << "Book details updated successfully!" << endl;
         displayBookInfo();
         alert();
@@ -59,7 +62,7 @@ int main() {
     myBook.displayBookInfo();
 
     cout << "\nUpdating book details:" << endl;
-    myBook.UpdateBook("The Great Gatsby", 15, 8);
+    myBook.UpdateBook();
 
     cout << "\nAttempting to purchase 5 copies:" << endl;
     myBook.purchase(5);
