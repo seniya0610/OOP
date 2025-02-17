@@ -1,0 +1,48 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+class Car {
+private:
+	int regnum;
+	string model;
+	string owner;
+
+public:
+
+	Car () {
+		regnum = 0;
+		model = "";
+		owner = "";
+	}
+	
+	Car (int r, string m, string o) {
+		regnum = r;
+		model = m;
+		owner = o;
+	}
+	
+	void Display() const{
+	    cout << "registration number " << regnum << endl;
+	    cout << "model " << model << endl;
+	    cout << "owner " << owner << endl;
+	} 
+	
+	Car (const Car &other, string newOwner){
+	    model = other.model;
+	    regnum = other.regnum;
+	    owner = newOwner;
+	}
+	
+};
+
+int main()
+{
+    Car obj1(2956, "toyota", "sam");
+    obj1.Display();
+    
+    Car obj2(obj1, "weewoo");
+    obj2.Display();
+
+	return 0;
+}
