@@ -162,13 +162,58 @@ public:
         }
     }
 
-    void rentVehicle(int userID, string model){}
+    void rentVehicle(int userID, string model)
+    {
+        bool founduser = false;
+        User *user;
+        for (int i = 0; i < Ucount; i++)
+        {
+            if (userID == userList->getID())
+            {
+                founduser = true;
+                user = &userList[i];
+                break;
+            }
+        }
 
+        if (!founduser)
+        {
+            cout << "User not found!" << endl;
+            return;
+        }
+
+        bool foundcar = false;
+        Vehicle *Tcar;
+        for (int i = 0; i < Ccount; i++)
+        {
+            if (carList[i].getModel() == model)
+            {
+                foundcar = true;
+                Tcar = &carList[i];
+                break;
+            }
+        }
+
+        if (foundcar)
+        {
+            cout << "Car not found!" << endl;
+            return;
+        }
+
+        if (user->getLicense() == Tcar->getEligibility())
+        {
+            cout << "Rental successful! " << user->getName() << " has rented the " << Tcar->getModel() << endl;
+        }
+        else
+        {
+            cout << "Not eligible." << endl;
+        }
+    }
 };
 
 int main()
 {
-    Company company(10, 10); // Create a company with a maximum of 10 users and 10 vehicles
+    Company company(10, 10);
 
     User user1(1, "John Doe", 25, "Full", 1234567890);
     User user2(2, "Jane Smith", 22, "Learner", 9876543210);
@@ -189,10 +234,9 @@ int main()
     cout << "Vehicles:" << endl;
     company.displayVehicles();
 
-    // Rent a vehicle
-    // company.rentVehicle(1, "Toyota Corolla"); // John Doe rents Toyota Corolla
-    // company.rentVehicle(2, "Ford Fiesta");    // Jane Smith rents Ford Fiesta
-    // company.rentVehicle(1, "Ford Fiesta");    // John Doe tries to rent Ford Fiesta (not eligible)
+    company.rentVehicle(1, "Toyota Corolla");
+    company.rentVehicle(2, "Ford Fiesta");   
+    company.rentVehicle(1, "Ford Fiesta");
 
     return 0;
 }
