@@ -1,10 +1,9 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 using namespace std;
 
 class User
 {
-
 private:
     int ID;
     string name;
@@ -43,8 +42,8 @@ public:
     void updateID(int id) { ID = id; }
     void updateName(string n) { name = n; }
     void updateAge(int a) { age = a; }
-    void updateContantDetails(long long c) { contact_no = c; }
-    void updateLiincese(int l) { license = l; }
+    void updateContactDetails(long long c) { contact_no = c; }
+    void updateLicense(string l) { license = l; }
 
     int getID() { return ID; }
     string getName() { return name; }
@@ -156,7 +155,7 @@ public:
     {
         for (int i = 0; i < Ccount; i++)
         {
-            cout << "Vehical " << i << ": " << endl;
+            cout << "Vehicle " << i << ": " << endl;
             carList[i].displayVehicle();
             cout << endl;
         }
@@ -165,10 +164,10 @@ public:
     void rentVehicle(int userID, string model)
     {
         bool founduser = false;
-        User *user;
+        User *user = nullptr;
         for (int i = 0; i < Ucount; i++)
         {
-            if (userID == userList->getID())
+            if (userID == userList[i].getID())
             {
                 founduser = true;
                 user = &userList[i];
@@ -183,7 +182,7 @@ public:
         }
 
         bool foundcar = false;
-        Vehicle *Tcar;
+        Vehicle *Tcar = nullptr;
         for (int i = 0; i < Ccount; i++)
         {
             if (carList[i].getModel() == model)
@@ -194,7 +193,7 @@ public:
             }
         }
 
-        if (foundcar)
+        if (!foundcar)
         {
             cout << "Car not found!" << endl;
             return;
@@ -235,7 +234,7 @@ int main()
     company.displayVehicles();
 
     company.rentVehicle(1, "Toyota Corolla");
-    company.rentVehicle(2, "Ford Fiesta");   
+    company.rentVehicle(2, "Ford Fiesta");
     company.rentVehicle(1, "Ford Fiesta");
 
     return 0;
