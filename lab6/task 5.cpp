@@ -27,7 +27,7 @@ public:
 
     void displayDetails() const
     {
-        cout << "Screen Size: " << screenSize << endl;
+        cout << "Screen Size: " << screenSize << " inches" << endl;
     }
 };
 
@@ -59,14 +59,18 @@ public:
         Device::displayDetails();
         SmartPhone::displayDetails();
         SmartWatch::displayDetails();
-        cout << "Step Counter: " << stepCounter << endl;
+        cout << "Step Counter: " << stepCounter << " steps" << endl;
     }
 };
 
 int main()
 {
-    SmartWearable d(12345, true, 1.5, true, 8000);
-    d.displayDetails();
+    SmartWearable myDevice(12345, true, 1.5, true, 8000);
+    myDevice.displayDetails();
+
+    SmartPhone s(345, true, 4.5);
+    s.Device::displayDetails();
+    s.displayDetails();
 
     return 0;
 }
