@@ -12,8 +12,8 @@ private:
 public:
     Movie() : title(""), director(""), duration(0) {}
 
-    Movie(string title, string director, int duration)
-        : title(title), director(director), duration(duration) {}
+    Movie(const string& _title, const string& _director, int _duration)
+        : title(_title), director(_director), duration(_duration) {}
 
     string getTitle() const { return title; }
     string getDirector() const { return director; }
@@ -31,17 +31,12 @@ class Playlist
 {
 private:
     string name;
-    Movie *movies;
+    Movie* movies;
     int numMovies;
-    int maxMovies = 100;
+    const int maxMovies = 100; // Maximum movies per playlist
 
 public:
-    Playlist() : name("unknown"), numMovies(0) 
-    {
-        movies = new Movie[maxMovies];
-    }
-
-    Playlist(string name) : name(name), numMovies(0)
+    Playlist(const string& _name) : name(_name), numMovies(0)
     {
         movies = new Movie[maxMovies];
     }
@@ -51,11 +46,11 @@ public:
         delete[] movies;
     }
 
-    void addMovie(Movie &movie)
+    void addMovie(Movie* movie)
     {
         if (numMovies < maxMovies)
         {
-            movies[numMovies++] = movie;
+            movies[numMovies++] = *movie;
         }
         else
         {
@@ -63,12 +58,12 @@ public:
         }
     }
 
-    void removeMovie(const Movie &movie)
+    void removeMovie(Movie* movie)
     {
         bool found = false;
         for (int i = 0; i < numMovies; i++)
         {
-            if (movies[i].getTitle() == movie.getTitle())
+            if (movies[i].getTitle() == movie->getTitle())
             {
                 // Shift all movies after the found movie one position to the left
                 for (int j = i; j < numMovies - 1; j++)
@@ -77,13 +72,13 @@ public:
                 }
                 numMovies--;
                 found = true;
-                cout << "Movie '" << movie.getTitle() << "' removed from the playlist." << endl;
+                cout << "Movie '" << movie->getTitle() << "' removed from the playlist." << endl;
                 break;
             }
         }
         if (!found)
         {
-            cout << "Movie '" << movie.getTitle() << "' not found in the playlist." << endl;
+            cout << "Movie '" << movie->getTitle() << "' not found in the playlist." << endl;
         }
     }
 
@@ -102,12 +97,12 @@ class User
 {
 private:
     string name;
-    Playlist *playlists;
+    Playlist* playlists;
     int numPlaylists;
     const int maxPlaylists = 10; // Maximum playlists per user
 
 public:
-    User(string name) : name(name), numPlaylists(0)
+    User(const string& _name) : name(_name), numPlaylists(0)
     {
         playlists = new Playlist[maxPlaylists];
     }
@@ -117,26 +112,26 @@ public:
         delete[] playlists;
     }
 
-    void createPlaylist(Playlist &P)
+    void createPlaylist(const string& playlistName)
     {
         if (numPlaylists < maxPlaylists)
         {
-            playlists[numPlaylists++] = P;
+            playlists[numPlaylists++] = Playlist(playlistName);
         }
         else
         {
-            cout << "Limit Reached" << endl;
+            cout << "Cannot create more playlists!" << endl;
         }
     }
 
-    void addMovieToPlaylist(Playlist &playlist, Movie &movie)
+    void addMovieToPlaylist(Playlist* playlist, Movie* movie)
     {
-        playlist.addMovie(movie);
+        playlist->addMovie(movie);
     }
 
-    void removeMovieFromPlaylist(Playlist &playlist, Movie &movie)
+    void removeMovieFromPlaylist(Playlist* playlist, Movie* movie)
     {
-        playlist.removeMovie(movie);
+        playlist->removeMovie(movie);
     }
 
     void displayUserPlaylists() const
@@ -152,40 +147,34 @@ public:
 
 int main()
 {
+    // Create movies
     Movie movie1("The Dark Knight", "Christopher Nolan", 152);
     Movie movie2("Inception", "Christopher Nolan", 148);
     Movie movie3("The Hangover", "Todd Phillips", 100);
     Movie movie4("Superbad", "Greg Mottola", 113);
 
-    Playlist playlist("Action Movies");
-
-    playlist.addMovie(movie1);
-    playlist.addMovie(movie2);
-    playlist.addMovie(movie3);
-    playlist.addMovie(movie4);
-
-    cout << "Initial Playlist:" << endl;
-    playlist.displayInfo();
-
-    playlist.removeMovie(movie2);
-
-    cout << "\nUpdated Playlist:" << endl;
-    playlist.displayInfo();
-
+    // Create user
     User user("Mujeeb Rehman");
 
-    Playlist playlist1("Action Movies");
-    playlist1.addMovie(movie1);
-    playlist1.addMovie(movie2);
+    // Create playlists
+    user.createPlaylist("Action Movies");
+    user.createPlaylist("Comedy Movies");
 
-    Playlist playlist2("Comedy Movies");
-    playlist2.addMovie(movie3);
-    playlist2.addMovie(movie4);
+    // Add movies to playlists
+    user.addMovieToPlaylist(&user.getPlaylist(0), &movie1);
+    user.addMovieToPlaylist(&user.getPlaylist(0), &movie2);
+    user.addMovieToPlaylist(&user.getPlaylist(1), &movie3);
+    user.addMovieToPlaylist(&user.getPlaylist(1), &movie4);
 
-    user.createPlaylist(playlist1);
-    user.createPlaylist(playlist2);
+    // Display playlists
+    cout << "Initial Playlists:" << endl;
+    user.displayUserPlaylists();
 
-    cout << "\nUser Playlists:" << endl;
+    // Remove "Inception" from "Action Movies"
+    user.removeMovieFromPlaylist(&user.getPlaylist(0), &movie2);
+
+    // Display updated playlists
+    cout << "\nUpdated Playlists:" << endl;
     user.displayUserPlaylists();
 
     return 0;
