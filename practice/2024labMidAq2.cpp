@@ -174,13 +174,16 @@ public:
 
 int main()
 {
+int main()
+{
+    // Create movies
     Movie movie1("The Dark Knight", "Christopher Nolan", 152);
     Movie movie2("Inception", "Christopher Nolan", 148);
     Movie movie3("The Hangover", "Todd Phillips", 100);
     Movie movie4("Superbad", "Greg Mottola", 113);
 
+    // Create a playlist and add movies
     Playlist playlist("Action Movies");
-
     playlist.addMovie(movie1);
     playlist.addMovie(movie2);
     playlist.addMovie(movie3);
@@ -189,11 +192,28 @@ int main()
     cout << "Initial Playlist:" << endl;
     playlist.displayInfo();
 
+    // Create a copy of the playlist using the deep copy constructor
+    Playlist playlistCopy = playlist; // Deep copy constructor is called here
+
+    cout << "\nCopied Playlist (before modification):" << endl;
+    playlistCopy.displayInfo();
+
+    // Modify the original playlist
     playlist.removeMovie(movie2);
 
-    cout << "\nUpdated Playlist:" << endl;
+    cout << "\nOriginal Playlist (after modification):" << endl;
     playlist.displayInfo();
 
+    cout << "\nCopied Playlist (after modification):" << endl;
+    playlistCopy.displayInfo();
+
+    // Verify that the copied playlist is independent of the original
+    if (playlistCopy.getNumMovies() == 4) // Assuming you add a getter for numMovies
+    {
+        cout << "\nThe copied playlist is independent of the original playlist." << endl;
+    }
+
+    // Create a user and add playlists
     User user("Mujeeb Rehman");
 
     Playlist playlist1("Action Movies");
@@ -210,5 +230,12 @@ int main()
     cout << "\nUser Playlists:" << endl;
     user.displayUserPlaylists();
 
+    // Create a copy of the user using the deep copy constructor
+    User userCopy = user; // Deep copy constructor is called here
+
+    cout << "\nCopied User Playlists:" << endl;
+    userCopy.displayUserPlaylists();
+
     return 0;
+}
 }
