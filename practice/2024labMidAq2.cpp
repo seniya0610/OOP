@@ -107,6 +107,12 @@ public:
             cout << "-----------------" << endl;
         }
     }
+
+    // Getter for numMovies
+    int getNumMovies() const
+    {
+        return numMovies;
+    }
 };
 
 class User
@@ -174,8 +180,6 @@ public:
 
 int main()
 {
-int main()
-{
     // Create movies
     Movie movie1("The Dark Knight", "Christopher Nolan", 152);
     Movie movie2("Inception", "Christopher Nolan", 148);
@@ -208,7 +212,7 @@ int main()
     playlistCopy.displayInfo();
 
     // Verify that the copied playlist is independent of the original
-    if (playlistCopy.getNumMovies() == 4) // Assuming you add a getter for numMovies
+    if (playlistCopy.getNumMovies() == 4) // Using the getter for numMovies
     {
         cout << "\nThe copied playlist is independent of the original playlist." << endl;
     }
@@ -237,5 +241,4 @@ int main()
     userCopy.displayUserPlaylists();
 
     return 0;
-}
 }
