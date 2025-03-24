@@ -5,15 +5,15 @@ using namespace std;
 class Media
 {
 public:
-    string title, publicationDate, uniqueID, publisher;
+    string title, publication, uniqueID, publisher;
     bool isCheckedOut;
 
-    Media(string t, string pDate, string id, string pub)
-        : title(t), publicationDate(pDate), uniqueID(id), publisher(pub), isCheckedOut(false) {}
+    Media(string t, string p, string id, string pub)
+        : title(t), publication(p), uniqueID(id), publisher(pub), isCheckedOut(false) {}
 
     virtual void displayInfo()
     {
-        cout << "Title: " << title << "\nPublication Date: " << publicationDate
+        cout << "Title: " << title << "\nPublication Date: " << publication
              << "\nUnique ID: " << uniqueID << "\nPublisher: " << publisher
              << "\nStatus: " << (isCheckedOut ? "Checked Out" : "Available") << endl;
     }
@@ -49,9 +49,9 @@ public:
         return title;
     }
 
-    string getPublicationDate()
+    string getPublication()
     {
-        return publicationDate;
+        return publication;
     }
 
     virtual string getAuthorOrDirector()
@@ -68,8 +68,8 @@ class Book : public Media
     int numberOfPages;
 
 public:
-    Book(string t, string pDate, string id, string pub, string auth, string isbn, int pages)
-        : Media(t, pDate, id, pub), author(auth), ISBN(isbn), numberOfPages(pages) {}
+    Book(string t, string p, string id, string pub, string auth, string isbn, int pages)
+        : Media(t, p, id, pub), author(auth), ISBN(isbn), numberOfPages(pages) {}
 
     void displayInfo() override
     {
@@ -90,8 +90,8 @@ class DVD : public Media
     float rating;
 
 public:
-    DVD(string t, string pDate, string id, string pub, string dir, int dur, float rate)
-        : Media(t, pDate, id, pub), director(dir), duration(dur), rating(rate) {}
+    DVD(string t, string p, string id, string pub, string dir, int dur, float rate)
+        : Media(t, p, id, pub), director(dir), duration(dur), rating(rate) {}
 
     void displayInfo() override
     {
@@ -111,8 +111,8 @@ class CD : public Media
     int numberOfTracks;
 
 public:
-    CD(string t, string pDate, string id, string pub, string art, int tracks, string gen)
-        : Media(t, pDate, id, pub), artist(art), numberOfTracks(tracks), genre(gen) {}
+    CD(string t, string p, string id, string pub, string art, int tracks, string gen)
+        : Media(t, p, id, pub), artist(art), numberOfTracks(tracks), genre(gen) {}
 
     void displayInfo() override
     {
@@ -158,27 +158,34 @@ public:
             cout << "Not found" << endl;
     }
 
-    void search(string creator, int type) {
+    void search(string creator, int type)
+    {
         bool found = false;
-        for (int i = 0; i < itemCount; i++) {
-            if (items[i]->getAuthorOrDirector() == creator) {
+        for (int i = 0; i < itemCount; i++)
+        {
+            if (items[i]->getAuthorOrDirector() == creator)
+            {
                 items[i]->displayInfo();
                 found = true;
             }
         }
-        if (!found) cout << "No items by: " << creator << endl;
+        if (!found)
+            cout << "not found" << endl;
     }
 
-    void search(int year) {
+    void search(int year)
+    {
         bool found = false;
-        for (int i = 0; i < itemCount; i++) {
-            string date = items[i]->getPublicationDate();
-            if (date.substr(0, 4) == to_string(year)) {
+        for (int i = 0; i < itemCount; i++)
+        {
+            if (items[i]->getPublication() == to_string(year))
+            {
                 items[i]->displayInfo();
                 found = true;
             }
         }
-        if (!found) cout << "No items from year: " << year << endl;
+        if (!found)
+            cout << "Not found" << endl;
     }
 
     ~Library()
@@ -194,9 +201,9 @@ int main()
 {
     Library library;
 
-    library.addItem(new Book("The Great Gatsby", "1925-04-10", "B001", "Scribner", "F. Scott Fitzgerald", "9780743273565", 180));
-    library.addItem(new DVD("Inception", "2010-07-16", "D001", "Warner Bros", "Christopher Nolan", 148, 8.8));
-    library.addItem(new CD("Thriller", "1982-11-30", "C001", "Epic", "Michael Jackson", 9, "Pop"));
+    library.addItem(new Book("The Great Gatsby", "1925", "B001", "Scribner", "F. Scott Fitzgerald", "9780743273565", 180));
+    library.addItem(new DVD("Inception", "2010", "D001", "Warner Bros", "Christopher Nolan", 148, 8.8));
+    library.addItem(new CD("Thriller", "1982", "C001", "Epic", "Michael Jackson", 9, "Pop"));
 
     library.search("Inception");
     library.search("Christopher Nolan");
