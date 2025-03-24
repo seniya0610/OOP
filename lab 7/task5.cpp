@@ -200,10 +200,14 @@ public:
 int main()
 {
     Library library;
+    Book *b1 = new Book("The Great Gatsby", "1925", "B001", "Scribner", "F. Scott Fitzgerald", "9780743273565", 180);
+    library.addItem(b1);
 
-    library.addItem(new Book("The Great Gatsby", "1925", "B001", "Scribner", "F. Scott Fitzgerald", "9780743273565", 180));
-    library.addItem(new DVD("Inception", "2010", "D001", "Warner Bros", "Christopher Nolan", 148, 8.8));
-    library.addItem(new CD("Thriller", "1982", "C001", "Epic", "Michael Jackson", 9, "Pop"));
+    DVD *d1 = new DVD("Inception", "2010", "D001", "Warner Bros", "Christopher Nolan", 148, 8.8);
+    library.addItem(d1);
+
+    CD *c1 = new CD("Thriller", "1982", "C001", "Epic", "Michael Jackson", 9, "Pop");
+    library.addItem(c1);
 
     library.search("Inception");
     library.search("Christopher Nolan");
