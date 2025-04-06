@@ -28,7 +28,7 @@ public:
 
     double ApplyDiscounts(Book b)
     {
-        b.price -= 200; // discount of 20rps
+        b.price -= 200; // discount of 200rps
         return b.price;
     }
 };
